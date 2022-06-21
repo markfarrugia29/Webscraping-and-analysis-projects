@@ -61,7 +61,7 @@ def get_jobs(keyword, num_jobs, verbose, path, slp_time):
             except StaleElementReferenceException as Exception:
                 print("StaleElementReferenceException while trying to click...seeking element again.")
                 new_job_list = driver.find_elements(By.XPATH, "//li[@data-test='jobListing']")
-                print("Populating new list")
+                #print("Populating new list") #uncomment to print a statement showing you reinitialized a list
                 new_job_list[cycle].click()
                     
                 cycle +=1
@@ -81,14 +81,15 @@ def get_jobs(keyword, num_jobs, verbose, path, slp_time):
             
             while not collected_successfully:
                 try:
-                    
+                    print("Attempting to gather information")
                     company_name = driver.find_element(By.XPATH, ".//div[@class='css-xuk5ye e1tk4kwz5']").text
                     #print('The company name is ', company_name)
                     location = driver.find_element(By.XPATH, ".//div[@class='css-56kyx5 e1tk4kwz1']").text
                     #print('The company location is ', location)
                     job_title = driver.find_element(By.XPATH, ".//div[@class='css-1j389vi e1tk4kwz2']").text
                     #print('The company title is ', job_title)
-                    #job_description = driver.find_element_by_xpath(By.XPATH, ".//div[@class='']").text
+                    #job_description = driver.find_element(By.XPATH, "//div[@class='jobDescriptioncontent desc']").text
+
                     collected_successfully = True
                 except:
                     time.sleep(3)
@@ -99,25 +100,25 @@ def get_jobs(keyword, num_jobs, verbose, path, slp_time):
                 try:
                    
                     salary_estimate_min = driver.find_element(By.XPATH, ".//span[@class='css-1d4p0fd e2u4hf13']").text
-                    print("The minimum pay range is:", salary_estimate_min)
+                    #print("The minimum pay range is:", salary_estimate_min) # uncomment to print out a min salary while the code runs
                 except NoSuchElementException:
                     salary_estimate_min = -1 #could use NA or NaN
-                    print("SALARY MIN NOT FOUND")
+                    #print("SALARY MIN NOT FOUND")
                 try:
                     salary_estimate_max = driver.find_element(By.XPATH, ".//span[@class='css-1d4p0fd e2u4hf13']/following-sibling::span").text
-                    print("The maximum pay range is:", salary_estimate_max)
+                   # print("The maximum pay range is:", salary_estimate_max)
                 except NoSuchElementException:
                     salary_estimate_max = -1 
                     #print("SALARY NOT FOUND")
                 try:
                     salary_estimate_avg = driver.find_element(By.XPATH, ".//div[@class='css-y2jiyn e2u4hf18']").text
-                    print("The average pay range is:", salary_estimate_avg)
+                    #print("The average pay range is:", salary_estimate_avg)
                 except NoSuchElementException:
                     salary_estimate_avg = -1 
                     #print("SALARY NOT FOUND")
                 try:
                     rating = driver.find_element(By.CLASS_NAME, 'css-1m5m32b.e1tk4kwz4').text
-                    print("The rating is:", rating)
+                    #print("The rating is:", rating)
                 except NoSuchElementException:
                     rating = -1 
             except NoSuchElementException:
@@ -235,7 +236,7 @@ def get_jobs(keyword, num_jobs, verbose, path, slp_time):
         try:
             driver.find_element(By.XPATH, ".//span[@alt='next-icon']").click()
             time.sleep(3)
-            print("Page turned successfully")
+            #print("Page turned successfully")
         except NoSuchElementException:
             print("Scraping terminated before reaching target number of jobs. Needed {}, got {}.".format(num_jobs, len(jobs)))
             break
