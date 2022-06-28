@@ -17,7 +17,7 @@ def get_jobs(keyword, num_jobs, verbose, path, slp_time):
     #Change the path to where chromedriver is in your home folder.
     driver = webdriver.Chrome(executable_path=path, options=options)
     driver.set_window_size(1120, 1000)
-    url = 'https://www.glassdoor.com/Job/' + keyword + '-jobs-SRCH_KO0,21.htm'
+    url = 'https://www.glassdoor.com/Job/' + keyword + '-jobs-SRCH_KO0,9.htm?context=Jobs&clickSource=searchBox'
     driver.get(url)
     jobs = []
     total_jobs = driver.find_element(By.CSS_SELECTOR, 'h1.hideHH.job-search-key-zga872.e15r6eig0').text
@@ -47,7 +47,7 @@ def get_jobs(keyword, num_jobs, verbose, path, slp_time):
         
         #Going through each job in this page
         job_buttons = driver.find_elements(By.XPATH, "//li[@data-test='jobListing']")  #  li for Job Listing. These are the buttons we're going to click.
-        
+        print("Populating button list")
         #initialize a counter to keep track of the position on the list "job_buttons". Needed in case you must reinitialize the list to avoid a StaleElementReferenceException
         cycle = 0
         for job_button in job_buttons:  
